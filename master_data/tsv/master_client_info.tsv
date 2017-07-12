@@ -1,0 +1,12 @@
+id	ID
+client_name	Client name
+short_name	Short name
+client_tel	Tel
+client_address	Address
+client_email	Email
+client_fax	Fax
+contact_name	Contact Name
+contact_jobtitle	Job Title
+contact_email	Contact Email
+contact_mobile	mobile
+contact_tel	Contact Phone
