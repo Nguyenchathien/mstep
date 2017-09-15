@@ -2574,5 +2574,32 @@ function tabRemove($value){
 
     return preg_replace("/(\t+)/"," ",$value);
 }
+
+function Unix_GetPidArray() {
+
+	$ret=array();
+	$cmd="/bin/ps -e -o pid,args";
+	$fp=popen($cmd,"r");
+	while(($line=fgets($fp))!=false){
+
+			$line   =ltrim($line);
+			$pos    =strpos($line," ");
+			$pid    =intval(substr($line,0,$pos));
+			$args   =substr($line,$pos+1);
+			if($pid <= 0) continue;
+			$ret[]=$pid;
+	}
+
+	fclose($fp);
+	return $ret;
+}
+
+function processWait($process_id,$sleep=3){
+
+	$current_plist=Unix_GetPidArray();
+	if(!in_array($process_id,$current_plist)) return;
+	sleep($sleep);
+	return processWait($process_id,$sleep);
+}
 ?>
 

@@ -42,8 +42,11 @@ $hostmap["web"]  ="mstep.localhost";
 $hostmap["local"]="mstep.localhost";
 
 define("DEVELOP_MODE",getDevelopMode());
+
+if(DEVELOP_MODE=="local") $path="D:\uploads";
+if(DEVELOP_MODE=="dev") $path="/var/mstep_upload/";
 // Dir upload
-define("DIR_UPLOAD","D:\uploads");
+define("DIR_UPLOAD",$path);
 
 /*
 * データベースの設定
@@ -98,7 +101,7 @@ else {
 	if(isset($client[1])) {
 		$client = $client[1];
 	} else {
-		$client = "m2";
+		$client = "m3";
 		//include('404.html'); // it will be landing page
 		//die;
 	}
@@ -171,6 +174,7 @@ define("MYSQL_DEFAULT_LOGIN",$client_db_conf['login']);
 define("MYSQL_DEFAULT_PASS" ,$client_db_conf['password']);
 define("MYSQL_DEFAULT_HOST" ,$client_db_conf['host']);
 define("MYSQL_DEFAULT_DB"   ,$client_db_conf['database']);
+define("MYSQL_DEFAULT_PS_FILE"   ,MASTER_DATA."db_info.conf");
 define("MYSQL_DEFAULT_UNIXSOCKET",$client_db_conf['unix_socket']);
 
 // Define constant Master database config
@@ -179,6 +183,16 @@ define("MYSQL_MASTER_PASS" ,$mysqls[DEVELOP_MODE]["master"]["password"]);
 define("MYSQL_MASTER_HOST" ,$mysqls[DEVELOP_MODE]["master"]["host"]);
 define("MYSQL_MASTER_DB"   ,$mysqls[DEVELOP_MODE]["master"]["database"]);
 define("MYSQL_MASTER_UNIXSOCKET",$mysqls[DEVELOP_MODE]["master"]["unix_socket"]);
+
+// Insert line and remove line funtion by client ordered.
+$insertMenuClients["local"]=array("mstepv2","m1","m3");
+$insertMenuClients["dev"]  =array("mstepv2");
+$insertMenuClients["web"]  =array("mstepv2");
+$deleteMenuClients["local"]=array("mstepv2","m1","m3");
+$deleteMenuClients["dev"]  =array("mstepv2");
+$deleteMenuClients["web"]  =array("mstepv2");
+define("INSERT_MENU_CLIENTS",$insertMenuClients[DEVELOP_MODE]);
+define("DELETE_MENU_CLIENTS",$deleteMenuClients[DEVELOP_MODE]);
 
 # End of client database connection
 
@@ -224,18 +238,18 @@ class DATABASE_CONFIG {
 				'unix_socket' => MYSQL_DEFAULT_UNIXSOCKET
 		);
 
-	var $master = array(
+		var $master = array(
 
-		'datasource' => 'Database/MysqlLog',
-		'driver'     => 'mysql',
-		'persistent' => false,
-		'host'       => MYSQL_MASTER_HOST,
-		'login'      => MYSQL_MASTER_LOGIN,
-		'password' => MYSQL_MASTER_PASS,
-		'database' => MYSQL_MASTER_DB,
-		'encoding' => 'utf8',
-		'unix_socket' => MYSQL_MASTER_UNIXSOCKET
-	);
+			'datasource' => 'Database/MysqlLog',
+			'driver'     => 'mysql',
+			'persistent' => false,
+			'host'       => MYSQL_MASTER_HOST,
+			'login'      => MYSQL_MASTER_LOGIN,
+			'password' => MYSQL_MASTER_PASS,
+			'database' => MYSQL_MASTER_DB,
+			'encoding' => 'utf8',
+			'unix_socket' => MYSQL_MASTER_UNIXSOCKET
+		);
 }
 
 /**
